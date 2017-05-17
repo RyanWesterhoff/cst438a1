@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
  */
 public class GameTest {
     
+    
     public GameTest() {
     }
     
@@ -125,22 +126,18 @@ public class GameTest {
         assertEquals(3,result);
  
         instance.startNewGame();
-        result = instance.playGame('c');
-        assertEquals(0,result);
-        result = instance.playGame('o');
-        assertEquals(0,result);
-        result = instance.playGame('m');
-        assertEquals(0,result);
-        result = instance.playGame('p');
-        assertEquals(0,result);
-        result = instance.playGame('u');
-        assertEquals(0,result);
-        result = instance.playGame('t');
-        assertEquals(0,result);
-        result = instance.playGame('e');
-        assertEquals(0,result);
-        result = instance.playGame('r');
-        assertEquals(1,result);
+        String word = instance.getWord();
+        
+        for(int i = 0; i < word.length(); i++){
+            result = instance.playGame(word.charAt(i));
+            if(instance.getDisplayWord().contains("_")){
+                assertEquals(0,result);
+            }else{
+                assertEquals(1,result);
+            }
+        }
     }
+    
+    
     
 }

@@ -48,7 +48,7 @@ public class MyHttpServerTest {
     public void testHandle() {
         String expectedBody = "<!DOCTYPE html><html><head><title>MyHttpServer</title></head>" + 
                 "<body><h2>Hangman</h2><img src=\"h1.gif\"><h2 style=\"font-family:'Lucida Console', monospace\">" +
-                " _ _ _ _ _ _ _ _</h2><form action=\"/\" method=\"get\"> Guess a character <input type=\"text\" name=\"guess\"><br>" +
+                " _ _ _ _ _ _ _</h2><form action=\"/\" method=\"get\"> Guess a character <input type=\"text\" name=\"guess\"><br>" +
                 "<input type=\"submit\" value=\"Submit\"></form></body></html>";
 
 
@@ -70,4 +70,46 @@ public class MyHttpServerTest {
     }
     }
     
+    
+    @Test
+    public void gifTest(){
+          //test request to download gif file 
+        Headers header = new Headers();
+        try{
+        TestHttpExchange t = new TestHttpExchange("/h1.gif", header);
+        MyHttpServer.MyHandler handler = new MyHttpServer.MyHandler();
+        handler.handle(t);
+        // check response for expect output
+        Headers response = t.getResponseHeaders();
+        assertEquals("Bad content type", "image/gif", response.getFirst("Content-type"));
+        assertEquals("Bad response code.",200, t.getResponseCode());
+        // check that length of response body is 8581 bytes. 
+        assertEquals("Bad response length.","8581", response.getFirst("Content-length"));
+        } catch(Exception e){
+            fail("File not found "+e.getMessage());
+        }
+    }
+    
+    //Looks for a gif that does not exist
+    @Test
+    public void badGifTest(){
+          //test request to download gif file 
+        Headers header = new Headers();
+        try{
+        TestHttpExchange t = new TestHttpExchange("/h1.gif", header);
+        MyHttpServer.MyHandler handler = new MyHttpServer.MyHandler();
+        handler.handle(t);
+        // check response for expect output
+        Headers response = t.getResponseHeaders();
+        assertEquals("Bad content type", "image/gif", response.getFirst("Content-type"));
+        assertEquals("Bad response code.",200, t.getResponseCode());
+        // check that length of response body is 8581 bytes. 
+        assertEquals("Bad response length.","8581", response.getFirst("Content-length"));
+        } catch(Exception e){
+            fail("File not found "+e.getMessage());
+        }
+    }
+    
 }
+
+
